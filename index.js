@@ -12,8 +12,8 @@ import tagsRoutes from "./src/modules/tags/tag.route.js";
 import codeRoutes from "./src/modules/code/code.route.js";
 import adminRoutes from "./src/modules/admin/admin.route.js";
 import dotenv from "dotenv";
-import { initSocket } from "../src/utils/socket.js";
-import http from "http";
+// import { initSocket } from "../src/utils/socket.js";
+// import http from "http";
 import { fileURLToPath } from "url";
 import path from "path";
 
@@ -21,7 +21,7 @@ dotenv.config();
 
 const app = express();
 
-const server = http.createServer(app);
+// const server = http.createServer(app);
 
 // Core middleware
 app.use(cors());
@@ -69,7 +69,7 @@ app.get("/", (req, res) => {
 })
 
 // Initialize socket
-initSocket(server);
+// initSocket(server);
 
 const PORT = process.env.PORT || 5000;
 
