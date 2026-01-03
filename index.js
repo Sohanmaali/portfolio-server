@@ -64,9 +64,6 @@ app.use("/api/tag", tagsRoutes);
 app.use("/api/code", codeRoutes);
 app.use("/api/admin", adminRoutes);
 
-app.get("/", (req, res) => {
-  res.send("API Working")
-})
 
 // Initialize socket
 // initSocket(server);
@@ -78,3 +75,4 @@ const PORT = process.env.PORT || 5000;
 // });
 
 export default app;
+
