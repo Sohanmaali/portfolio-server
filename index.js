@@ -46,6 +46,7 @@ const connectDB = async () => {
 app.use((req, res, next) => {
   if (!isConnected) {
     connectDB()
+    next();
   }
 })
 
@@ -75,4 +76,5 @@ const PORT = process.env.PORT || 5000;
 // });
 
 export default app;
+
 
