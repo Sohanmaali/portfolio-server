@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import connectDB from "./src/config/db.js";
+import mongoose from 'mongoose';
+// import connectDB from "./src/config/db.js";
 import authRoutes from "./src/modules/auth/auth.route.js"
 import userRoutes from "./src/modules/user/user.route.js"
 import contactRoutes from "./src/modules/contact/contact.route.js"
@@ -11,7 +12,7 @@ import tagsRoutes from "./src/modules/tags/tag.route.js";
 import codeRoutes from "./src/modules/code/code.route.js";
 import adminRoutes from "./src/modules/admin/admin.route.js";
 import dotenv from "dotenv";
-import { initSocket } from "./src/utils/socket.js";
+import { initSocket } from "../src/utils/socket.js";
 import http from "http";
 import { fileURLToPath } from "url";
 import path from "path";
@@ -28,7 +29,25 @@ app.use(express.json());
 // app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
-connectDB();
+
+let isConnected = false;
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    isConnected = true
+    console.log(' MongoDB connected');
+  } catch (err) {
+    console.error(' MongoDB connection error:', err);
+    process.exit(1);
+  }
+};
+
+app.use((req, res, next) => {
+  if (!isConnected) {
+    connectDB()
+  }
+})
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -53,6 +72,9 @@ app.get("/", (req, res) => {
 initSocket(server);
 
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+
+// server.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
+
+export default app;
