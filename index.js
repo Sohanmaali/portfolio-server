@@ -45,6 +45,10 @@ app.use("/api/tag", tagsRoutes);
 app.use("/api/code", codeRoutes);
 app.use("/api/admin", adminRoutes);
 
+app.get("/", (req, res) => {
+  res.send("API Working")
+})
+
 // Initialize socket
 initSocket(server);
 
